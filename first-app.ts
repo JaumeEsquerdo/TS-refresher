@@ -14,12 +14,14 @@ let isValid = true;
 let userId: string | number = "abc1";
 userId = 123;
 
-let user: {
+type User = {
   name: string;
   age: number;
   isAdmin: boolean;
   id: string | number;
 };
+
+let user: User;
 
 user = {
   name: "Max",
@@ -47,12 +49,24 @@ function sum(a: number, b: number) {
   return result;
 }
 
-function calculate(
-  a: number,
-  b: number,
-  calcFn: (a: number, b: number) => number
-) {
+type FnCalc = (a: number, b: number) => number;
+
+function calculate(a: number, b: number, calcFn: FnCalc) {
   calcFn(a, b);
 }
 
 calculate(2, 5, sum);
+
+// principalmente INTERFACE para objetos
+
+interface Credentials {
+  name: string;
+  email: string;
+}
+
+let creed: Credentials;
+
+creed = {
+  name: "Antuan",
+  email: "antuan@email.es",
+};
