@@ -1,9 +1,9 @@
-import CourseGoal from "./components/CourseGoal";
 import Header from "./components/Header";
-import reactImage from '../public/vite.svg'
+import reactImage from '../src/assets/react.svg'
 import { useState } from "react";
+import CourseGoalList from "./components/CourseGoalList";
 
-type CourseGoal = {
+export type CourseGoal = {
   title: string,
   description: string,
   id: number
@@ -20,9 +20,13 @@ const App = () => {
         description: 'Learn it in depth!'
       }
       return [...prev, newGoal]
-
     })
   }
+
+  const handleDeleteGoal = (id: number) => {
+    setGoals(prev => prev.filter((goal) => goal.id !== id))
+  }
+
   return (
     <main>
       <Header image={{ src: reactImage, alt: 'A image of react' }}>
@@ -30,15 +34,7 @@ const App = () => {
       </Header>
       <button onClick={handleAddGoal}>Add Goal</button>
 
-      <ul>
-        {goals.map((goal) => (
-          <li key={goal.id}>
-            <CourseGoal title={goal.title}  >
-              <p>{goal.description}</p>
-            </CourseGoal>
-          </li>
-        ))}
-      </ul>
+      <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal} />
 
     </main>
   );

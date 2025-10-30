@@ -3,10 +3,15 @@ import type { ReactNode } from "react";
 // import type { PropsWithChildren } from "react";
 
 // type CourseGoalProps = PropsWithChildren<{title: string}> (Otra manera de obtener children)
-type CourseGoalProps = { title: string; children: ReactNode }
+type CourseGoalProps = {
+    id: number;
+    title: string;
+    children: ReactNode;
+    onDelete: (id: number) => void
+}
 
 
-const CourseGoal = ({ title, children }: CourseGoalProps) => {
+const CourseGoal = ({ title, id, children, onDelete }: CourseGoalProps) => {
 
     return (
         <article>
@@ -14,7 +19,7 @@ const CourseGoal = ({ title, children }: CourseGoalProps) => {
                 <h1>{title}</h1>
                 {children}
             </div>
-            <button>Delete</button>
+            <button onClick={() => onDelete(id)}>Delete</button>
         </article>
     );
 }
