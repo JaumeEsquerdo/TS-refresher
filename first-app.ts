@@ -177,3 +177,71 @@ Devuelve el tipo básico del valor ("string", "number", "boolean", etc.). */
 Usar if checks o type guards es una práctica esencial cuando:
 Se manejan union types (por ejemplo, string | number).
 Se deben ejecutar diferentes bloques de código según el tipo o valor. */
+
+/* 🔹 Generic Types en TypeScript
+🧠 Concepto general:
+
+Los genéricos permiten crear tipos flexibles y reutilizables, que se adaptan al tipo de dato con el que se usan.
+
+Funcionan con “placeholders” de tipo, normalmente llamados T, U, etc., que se reemplazan por tipos concretos al usarlos. */
+
+// 🧩 Ejemplo con tipos genéricos incorporados
+// let roles: Array<Role>; o
+let roles: Role[];
+
+// Ambos garantizan que solo se puedan almacenar valores del tipo indicado ('admin' | 'user' | 'editor').
+
+// 🔧 Crear un tipo genérico propio
+type DataStorage<T> = {
+  storage: T[];
+  add: (data: T) => void;
+};
+/* T actúa como marcador de tipo.
+
+El tipo real (string, User, etc.) se especifica cuando se usa el tipo genérico. */
+const textStorage: DataStorage<string> = {
+  storage: [],
+  add(data) {
+    this.storage.push(data);
+  },
+};
+
+/* T se reemplaza por string, por lo tanto:
+
+storage es string[].
+
+add() solo acepta strings. */
+
+//otro ej:
+type UnUser = { name: string; age: number };
+
+const userStorage: DataStorage<UnUser> = {
+  storage: [],
+  add(user) {
+    this.storage.push(user);
+  },
+};
+// Ahora storage es un array de User y add() solo admite objetos con name y age.
+
+/* ⚙️ Funciones genéricas
+
+También se pueden definir funciones genéricas: */
+function merge<T, U>(a: T, b: U) {
+  return { ...a, ...b };
+}
+
+// ej de uso:
+const newUser = merge({ name: "Alice" }, { age: 30 });
+/* T se infiere como { name: string }
+
+U se infiere como { age: number }
+
+Resultado → { name: string; age: number }
+
+✅ TypeScript infiera automáticamente los tipos genéricos según los argumentos pasados. */
+
+// Esto sería lo mismo, pero innecesario
+const newOtroUser = merge<{ name: string }, { age: number }>(
+  { name: "Alice" },
+  { age: 30 }
+);
