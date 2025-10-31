@@ -3,6 +3,8 @@ import reactImage from '../src/assets/react.svg'
 import { useState } from "react";
 import CourseGoalList from "./components/CourseGoalList";
 import NewGoal from "./components/NewGoal";
+
+//se exporta porque otros componentes (como CourseGoalList) también lo necesitan.
 export type CourseGoal = {
   title: string,
   description: string,
@@ -12,6 +14,8 @@ export type CourseGoal = {
 const App = () => {
   const [goals, setGoals] = useState<CourseGoal[]>([])
 
+
+  /* Aquí se usa el tipo inferido: goal y summary son string, porque el formulario (NewGoal) los enviará como texto. */
   const handleAddGoal = (goal: string, summary: string) => {
     setGoals((prev) => {
       const newGoal: CourseGoal = {
