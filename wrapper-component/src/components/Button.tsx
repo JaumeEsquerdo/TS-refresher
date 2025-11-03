@@ -30,3 +30,24 @@ const Button = (props: ButtonProps | AnchorProps) => {
 }
 
 export default Button;
+
+/* Para tipar fuerte de otra forma: */
+
+// type ButtonProps = {
+//   as: 'button';
+// } & ComponentPropsWithoutRef<'button'>;
+
+// type AnchorProps = {
+//   as: 'a';
+// } & ComponentPropsWithoutRef<'a'>;
+
+// function isAnchorProps(props: ButtonProps | AnchorProps): props is AnchorProps {
+//   return props.as === 'a';
+// }
+
+// luego
+
+// if (isAnchorProps(props)) {
+//   return <a {...props} />;
+// }
+// return <button {...props} />;
