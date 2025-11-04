@@ -1,25 +1,29 @@
 import Input from './components/Input'
 import Button from './components/Button'
-import Container from './components/Container'
 import './App.css'
+import Form, { type FormHandle } from './components/Form'
+import { useRef } from 'react'
 
 function App() {
+  const customForm = useRef<FormHandle>(null);
 
+  const handleSave = (data: unknown) => {
+    const extractedData = data as { name: string, number: string } // string en number porq en inputs es siempre strings aunq sea tipo number
+    console.log(extractedData)
+    customForm.current?.clear()
+  }
 
   return (
     <>
-      <h1>Let's get started</h1>
-      <Input id='name' label='Your name' type='text' />
-      <Input id='age' label='Your age' type='number' />
-      <p>
-        <Button >A button</Button>
-      </p>
-      <p>
-        <Button href='https://google.com'>A link</Button >
-      </p >
-      <section>
-        <Container as={Button}>Click me</Container>
-      </section>
+      <main>
+        <Form onSave={handleSave} ref={customForm}>
+          <Input type='text' label='Name' id='name' />
+          <Input type='number' label='Ager' id='age' />
+          <p>
+            <Button>Save</Button>
+          </p>
+        </Form>
+      </main >
     </>
   )
 }
