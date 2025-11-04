@@ -8,6 +8,9 @@ export type FormHandle = {
     clear: () => void
 }
 
+
+// **forwardRef** permite que este componente acepte una ref del padre
+// y la redirija a un elemento interno o a una API definida con useImperativeHandle
 // 👇 forwardRef recibe dos parámetros de tipo genérico:
 // 1️⃣ el tipo del 'ref' que se expone al padre (FormHandle)
 // 2️⃣ el tipo de las props que el componente acepta (FormProps)
