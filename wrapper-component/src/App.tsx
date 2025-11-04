@@ -1,5 +1,6 @@
 import Input from './components/Input'
 import Button from './components/Button'
+import Container from './components/Container'
 import './App.css'
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
       <p>
         <Button href='https://google.com'>A link</Button >
       </p >
+      <section>
+        <Container as={Button}>Click me</Container>
+      </section>
     </>
   )
 }

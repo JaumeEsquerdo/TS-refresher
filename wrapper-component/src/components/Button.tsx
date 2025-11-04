@@ -47,7 +47,8 @@ export default Button;
 
 // luego
 
-// if (isAnchorProps(props)) {
+
+// if (isAnchorProps(props)) { // props se pasa a la función para analizarlo
 //   return <a {...props} />;
 // }
 // return <button {...props} />;
