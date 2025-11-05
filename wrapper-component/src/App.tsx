@@ -1,29 +1,23 @@
-import Input from './components/Input'
-import Button from './components/Button'
-import './App.css'
-import Form, { type FormHandle } from './components/Form'
-import { useRef } from 'react'
+import Header from "./components/Header"
+import AddTimer from "./components/AddTimer"
+import Timers from "./components/Timers"
 
 function App() {
-  const customForm = useRef<FormHandle>(null);
+  // const customForm = useRef<FormHandle>(null);
 
-  const handleSave = (data: unknown) => {
-    const extractedData = data as { name: string, number: string } // string en number porq en inputs es siempre strings aunq sea tipo number
-    console.log(extractedData)
-    customForm.current?.clear()
-  }
+  // const handleSave = (data: unknown) => {
+  //   const extractedData = data as { name: string, number: string } // string en number porq en inputs es siempre strings aunq sea tipo number
+  //   console.log(extractedData)
+  //   customForm.current?.clear()
+  // }
 
   return (
     <>
+      <Header />
       <main>
-        <Form onSave={handleSave} ref={customForm}>
-          <Input type='text' label='Name' id='name' />
-          <Input type='number' label='Ager' id='age' />
-          <p>
-            <Button>Save</Button>
-          </p>
-        </Form>
-      </main >
+        <AddTimer />
+        <Timers />
+      </main>
     </>
   )
 }
