@@ -1,7 +1,7 @@
-import { createContext, type ReactNode } from "react";
+import { createContext, useReducer, type ReactNode } from "react";
 import { useContext } from "react";
 
-type Timer = {
+export type Timer = {
     name: string;
     duration: number
 }
@@ -9,6 +9,11 @@ type Timer = {
 type TimersState = {
     isRunning: boolean;
     timers: Timer[]
+}
+
+const initialState: TimersState = {
+    isRunning: true,
+    timers: []
 }
 
 type TimersContextValue = TimersState & {
@@ -31,19 +36,72 @@ type TimersContextProviderProps = {
     children: ReactNode
 }
 
+type StartTimersAction = {
+    type: 'START_TIMERS'
+
+}
+
+type StopTimersAction = {
+    type: 'STOP_TIMERS'
+
+}
+type AddTimerAction = {
+    type: 'ADD_TIMER',
+    payload: Timer
+
+}
+type Action = StartTimersAction | StopTimersAction | AddTimerAction
+
+const timersReducer = (state: TimersState, action: Action): TimersState => {
+    if (action.type === 'START_TIMERS') {
+        // no toques el state fuera, mejor dentro del return, se pasa el state entero de los timers porque solo se está cambiando el isRunning
+        return {
+            ...state,
+            isRunning: true
+        }
+    }
+    if (action.type === 'STOP_TIMERS') {
+        return {
+            ...state,
+            isRunning: false
+        }
+    }
+    if (action.type === 'ADD_TIMER') {
+        // aqui se pasa el state pensando en que el isRunning se queda igual que estaba y solo se modifica el timers para añadir el nuevo
+        return {
+            ...state,
+            timers: [
+                ...state.timers,
+                {
+                    name: action.payload.name,
+                    duration: action.payload.duration
+                }
+            ]
+        }
+    }
+    return state;
+}
+
 export const TimersContextProvider = ({ children }: TimersContextProviderProps) => {
+
+    const [timerState, dispatch] = useReducer(timersReducer, initialState)
+
     const ctx: TimersContextValue = {
-        timers: [],
-        isRunning: true,
-        addTimer() {
-            //..
+        timers: timerState.timers,
+        isRunning: timerState.isRunning,
+        addTimer(timerData) {
+            dispatch({ type: 'ADD_TIMER', payload: timerData })
         },
-        startTimers() { },
+        startTimers() {
+            dispatch({ type: 'START_TIMERS' })
+
+        },
         stopTimers() {
-            //..
+            dispatch({ type: 'STOP_TIMERS' })
+
         },
     }
     return (
-        <TimersContext.Provider value={ctx}>{children}</TimersContext.Provider>
+        <TimersContext.Provider value={ctx} > {children}</TimersContext.Provider >
     )
 }
