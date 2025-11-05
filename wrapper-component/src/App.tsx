@@ -1,6 +1,7 @@
 import Header from "./components/Header"
 import AddTimer from "./components/AddTimer"
 import Timers from "./components/Timers"
+import { TimersContextProvider } from '../src/store/timers-context'
 
 function App() {
   // const customForm = useRef<FormHandle>(null);
@@ -12,13 +13,13 @@ function App() {
   // }
 
   return (
-    <>
+    <TimersContextProvider>
       <Header />
       <main>
         <AddTimer />
         <Timers />
       </main>
-    </>
+    </TimersContextProvider>
   )
 }
 
