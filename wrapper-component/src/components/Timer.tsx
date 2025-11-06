@@ -8,10 +8,13 @@ const Timer = ({ name, duration }: TimerProps) => {
 
     const interval = useRef<number | null>(null)
 
+    // aqui el 'clearInterval': Su trabajo es detener el timer cuando llega a 0
     if (remainingTime <= 0 && interval.current) {
         clearInterval(interval.current)
     }
 
+
+    // aqui el 'clearInterval': Su trabajo es limpiar el intervalo si el componente se desmonta antes de que el tiempo llegue a 0.
     useEffect(() => {
         const timer = setInterval(function () {
             setRemainingTime(prev => prev - 50)
