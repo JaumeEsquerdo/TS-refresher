@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import BlogPosts, { type BlogPost } from './components/BlogPosts'
 import fetchingImg from '../src/assets/vite.svg'
 import { type ReactNode } from 'react'
+import ErrorMessage from './components/ErrorMessage'
 
 
 type RawDataBlogPost = {
@@ -15,29 +16,49 @@ type RawDataBlogPost = {
 
 function App() {
   const [fetchedPosts, setFetchedPosts] = useState<BlogPost[]>()
+  const [isFetching, setIsFetching] = useState(false)
+  const [error, setError] = useState<string>()
+
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = (await get('https://jsonplaceholder.typicode.com/posts')) as RawDataBlogPost[]
+      setIsFetching(true)
+      try {
+        const data = (await get('https://jsonplaceholder.typicode.com/posts')) as RawDataBlogPost[]
+        const blogPosts: BlogPost[] = data.map(rawPost => {
+          return {
+            id: rawPost.id,
+            title: rawPost.title,
+            text: rawPost.body
+          }
+        });
+        setFetchedPosts(blogPosts)
 
-      const blogPosts: BlogPost[] = data.map(rawPost => {
-        return {
-          id: rawPost.id,
-          title: rawPost.title,
-          text: rawPost.body
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message)
         }
-      });
-      setFetchedPosts(blogPosts)
+        // setError('Failed to tech posts!')
+      }
+      setIsFetching(false)
+
     }
 
     fetchPosts()
-  }, [fetchedPosts])
+  }, [])
 
   let content: ReactNode;
+
+  if (error) {
+    content = <ErrorMessage text={error} />
+  }
 
   if (fetchedPosts) {
     content = <BlogPosts posts={fetchedPosts} />
   }
 
+  if (isFetching) {
+    content = <p id='loading-fallback'>Fetching posts...</p>
+  }
   return (
     <main>
       <h1>Data fetching!</h1>
