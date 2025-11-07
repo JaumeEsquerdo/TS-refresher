@@ -48,17 +48,14 @@ function App() {
 
   let content: ReactNode;
 
-  if (error) {
+  if (isFetching) {
+    content = <p id='loading-fallback'>Fetching posts...</p>
+  } else if (error) {
     content = <ErrorMessage text={error} />
-  }
-
-  if (fetchedPosts) {
+  } else if (fetchedPosts) {
     content = <BlogPosts posts={fetchedPosts} />
   }
 
-  if (isFetching) {
-    content = <p id='loading-fallback'>Fetching posts...</p>
-  }
   return (
     <main>
       <h1>Data fetching!</h1>
