@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type CartItem = {
+export type CartItem = {
   id: string;
   title: string;
   price: number;
@@ -15,6 +15,9 @@ const initialState: CartState = {
   items: [],
 };
 
+// PayloadAction es un tipo de Redux Toolkit que define la forma del action.payload
+// (los datos que recibe el reducer). Ese payload viene del dispatch(), por ejemplo:
+// dispatch(addToCart({ id, title, price })) → en el reducer llega como action.payload
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
