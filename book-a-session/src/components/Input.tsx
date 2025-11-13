@@ -1,5 +1,6 @@
+import type { InputHTMLAttributes } from "react";
 
-type InputProps = {
+type InputProps = InputHTMLAttributes<HTMLInputElement> & { //incluye todos los atributos válidos de un <input> en HTML y...
     label?: string;
     id?: string;
 }
